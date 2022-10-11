@@ -34,8 +34,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Jakuborava\\WedosAPI\\": "src",
-            "Jakuborava\\WedosAPI\\Database\\Factories\\": "database/factories"
+            "Jakuborava\\WedosAPI\\": "src"
         }
     },
     "autoload-dev": {
