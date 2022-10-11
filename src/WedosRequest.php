@@ -55,7 +55,7 @@ class WedosRequest
     {
         $input = [
             'request' => [
-                'user' => config('wedos-client.user'),
+                'user' => config('wapi.user'),
                 'auth' => $this->getAuthToken(),
                 'command' => $this->command
             ]
