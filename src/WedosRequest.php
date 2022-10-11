@@ -79,7 +79,7 @@ class WedosRequest
     {
         $response = Http::timeout(60)
             ->withBody($this->getRequestBody(), 'application/x-www-form-urlencoded')
-            ->post(config('wapi.api_url'));
+            ->post(config('wapi.url'));
 
         if (!$response->ok()) {
             throw new HttpClientException('Response was not successful. HTTP Response code: ' . $response->status());
