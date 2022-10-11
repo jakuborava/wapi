@@ -5,39 +5,73 @@ namespace Jakuborava\WedosAPI\DataTransferObjects;
 class FullDomainInfo extends MinimalDomainInfo
 {
     protected ?string $nsset;
+
     protected ?string $keySet;
+
     protected string $ownerContact;
+
     protected string $adminContact;
+
     protected string $technicalContact;
+
     protected string $billingContact;
+
     protected string $regOwner;
+
     protected string $regCreator;
+
     protected string $setupDate;
+
     protected string $regUpdate;
+
     protected string $updatedDate;
+
     protected string $transferDate;
+
     protected DNS $dns;
+
     protected ?string $dnssecKeys;
+
     protected string $ownerCompany;
+
     protected string $ownerName;
+
     protected string $ownerLastName;
+
     protected string $ownerFirstName;
+
     protected string $ownerEmail;
+
     protected ?string $ownerEmail2;
+
     protected string $ownerPhone;
+
     protected string $ownerFax;
+
     protected ?string $ownerIC;
+
     protected ?string $ownerDIC;
+
     protected ?string $ownerTaxpayer;
+
     protected string $ownerAddressStreet;
+
     protected string $ownerAddressCity;
+
     protected string $ownerAddressZip;
+
     protected string $ownerAddressCountry;
+
     protected string $ownerAddressState;
+
     protected ?string $rgpStatus;
+
     protected string $ownerNotifyEmail;
+
     protected string $ownerIdentType;
+
     protected string $ownerIdent;
+
     protected string $ownerDeliveryAddress;
 
     public static function fromWedosResponseData(array $data): FullDomainInfo
@@ -91,6 +125,7 @@ class FullDomainInfo extends MinimalDomainInfo
         $domain->ownerIdentType = $data['own_other']['ident_type'];
         $domain->ownerIdent = $data['own_other']['ident'];
         $domain->ownerDeliveryAddress = $data['own_other']['del_addr'] ?? '';
+
         return $domain;
     }
 }

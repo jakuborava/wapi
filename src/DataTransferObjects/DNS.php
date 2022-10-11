@@ -24,6 +24,7 @@ class DNS implements DTO
         foreach ($data['servers'] as $serverData) {
             $dns->servers[] = Server::fromWedosResponseData($serverData);
         }
+
         return $dns;
     }
 }

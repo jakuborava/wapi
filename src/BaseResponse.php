@@ -7,16 +7,22 @@ use Illuminate\Http\Client\Response;
 class BaseResponse
 {
     protected int $code;
+
     protected string $result;
+
     protected int $timestamp;
+
     protected string $svTRID;
+
     protected string $command;
+
     protected array $data;
 
     public static function fromLaravelResponse(Response $response): self
     {
         $wedosResponse = new self();
         $wedosResponse->fill($response->json('response'));
+
         return $wedosResponse;
     }
 

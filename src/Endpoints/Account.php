@@ -14,6 +14,7 @@ class Account
         foreach ($response->getData() as $accountListItemData) {
             $accountListItems[] = AccountListItem::fromWedosResponseData($accountListItemData);
         }
+
         return $accountListItems;
     }
 }

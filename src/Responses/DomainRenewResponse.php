@@ -13,6 +13,7 @@ class DomainRenewResponse implements ResponseWithData
     {
         $response = new self();
         $response->expiration = $baseResponse->getData()['expiration'];
+
         return $response;
     }
 
@@ -20,6 +21,4 @@ class DomainRenewResponse implements ResponseWithData
     {
         return $this->expiration;
     }
-
-
 }

@@ -7,11 +7,17 @@ use Jakuborava\WedosAPI\Contracts\DTO;
 class DNSRow implements DTO
 {
     protected int $id = -1;
+
     protected ?string $name = null;
+
     protected int $ttl = -1;
+
     protected string $type = '';
+
     protected string $data = '';
+
     protected string $changedDate = '';
+
     protected string $authorComment = '';
 
     public static function fromWedosResponseData(array $data): DNSRow
@@ -24,6 +30,7 @@ class DNSRow implements DTO
         $dnsRow->data = $data['rdata'];
         $dnsRow->changedDate = $data['changed_date'];
         $dnsRow->authorComment = $data['author_comment'];
+
         return $dnsRow;
     }
 

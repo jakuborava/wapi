@@ -7,19 +7,28 @@ use Jakuborava\WedosAPI\Contracts\DTO;
 class AccountListItem implements DTO
 {
     protected int $id;
+
     protected string $type;
+
     protected string $num;
+
     protected string $description;
+
     protected float $amount;
+
     protected ?string $billNum;
+
     protected ?string $billDate;
+
     protected bool $blocked;
+
     protected string $createdDate;
 
     public static function fromWedosResponseData(array $data): AccountListItem
     {
         $accountListItem = new self();
         $accountListItem->fill($data);
+
         return $accountListItem;
     }
 

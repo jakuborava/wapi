@@ -7,6 +7,7 @@ use Jakuborava\WedosAPI\Contracts\DTO;
 class Rules implements DTO
 {
     protected string $fName = '';
+
     protected string $lName = '';
 
     public function __construct(string $firstName, string $lastName)

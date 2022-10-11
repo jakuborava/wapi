@@ -2,10 +2,10 @@
 
 namespace Jakuborava\WedosAPI\Endpoints\DNS;
 
-use Jakuborava\WedosAPI\Exceptions\RequestFailedException;
-use Jakuborava\WedosAPI\DataTransferObjects\DNSRow;
-use Jakuborava\WedosAPI\WedosRequest;
 use Illuminate\Http\Client\HttpClientException;
+use Jakuborava\WedosAPI\DataTransferObjects\DNSRow;
+use Jakuborava\WedosAPI\Exceptions\RequestFailedException;
+use Jakuborava\WedosAPI\WedosRequest;
 
 class Row
 {
@@ -22,7 +22,7 @@ class Row
                 'name' => $name,
                 'ttl' => $ttl,
                 'type' => $type,
-                'rdata' => $rdata
+                'rdata' => $rdata,
             ]
         ))->send();
     }
@@ -49,6 +49,7 @@ class Row
             'dns-row-detail',
             ['domain' => $domain, 'row_id' => $rowID]
         ))->send();
+
         return DNSRow::fromWedosResponseData($response->getData()['row']);
     }
 
@@ -63,6 +64,7 @@ class Row
         foreach ($response->getData()['row'] as $row) {
             $rows[] = DNSRow::fromWedosResponseData($row);
         }
+
         return $rows;
     }
 
@@ -78,7 +80,7 @@ class Row
                 'domain' => $domain,
                 'row_id' => $rowID,
                 'ttl' => $ttl,
-                'rdata' => $rData
+                'rdata' => $rData,
             ]
         ))->send();
     }

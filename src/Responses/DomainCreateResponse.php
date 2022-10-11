@@ -9,7 +9,9 @@ use Jakuborava\WedosAPI\DataTransferObjects\CreditInfo;
 class DomainCreateResponse implements ResponseWithData
 {
     protected string $num = '';
+
     protected string $expiration = '';
+
     protected CreditInfo $credit;
 
     public static function fromWedosClientResponse(BaseResponse $baseResponse): DomainCreateResponse
@@ -18,6 +20,7 @@ class DomainCreateResponse implements ResponseWithData
         $response->expiration = $baseResponse->getData()['expiration'];
         $response->num = $baseResponse->getData()['num'];
         $response->credit = CreditInfo::fromWedosResponseData($baseResponse->getData()['credit']);
+
         return $response;
     }
 

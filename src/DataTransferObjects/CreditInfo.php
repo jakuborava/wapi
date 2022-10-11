@@ -7,6 +7,7 @@ use Jakuborava\WedosAPI\Contracts\DTO;
 class CreditInfo implements DTO
 {
     protected float $amount;
+
     protected string $currency;
 
     public static function fromWedosResponseData(array $data): CreditInfo
@@ -14,6 +15,7 @@ class CreditInfo implements DTO
         $credit = new self();
         $credit->amount = $data['amount'];
         $credit->currency = $data['currency'];
+
         return $credit;
     }
 

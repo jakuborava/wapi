@@ -8,7 +8,9 @@ use JsonSerializable;
 class MinimalDomainInfo implements DTO, JsonSerializable
 {
     protected string $name;
+
     protected string $status;
+
     protected ?string $expiration;
 
     public static function fromWedosResponseData(array $data): MinimalDomainInfo
@@ -17,6 +19,7 @@ class MinimalDomainInfo implements DTO, JsonSerializable
         $domain->name = $data['name'];
         $domain->status = $data['status'];
         $domain->expiration = $data['expiration'];
+
         return $domain;
     }
 

@@ -9,6 +9,7 @@ class Ping
     public function ping(): bool
     {
         (new WedosRequest('ping'))->send();
+
         return true;
     }
 

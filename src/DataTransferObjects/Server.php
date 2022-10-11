@@ -7,7 +7,9 @@ use Jakuborava\WedosAPI\Contracts\DTO;
 class Server implements DTO
 {
     protected string $name = '';
+
     protected string $ipv4 = '';
+
     protected string $ipv6 = '';
 
     public function getName(): string
@@ -46,6 +48,7 @@ class Server implements DTO
         $server->name = $data['name'];
         $server->ipv4 = $data['addr_ipv4'];
         $server->ipv6 = $data['addr_ipv6'];
+
         return $server;
     }
 }

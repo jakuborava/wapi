@@ -2,17 +2,19 @@
 
 namespace Jakuborava\WedosAPI;
 
-use Jakuborava\WedosAPI\Exceptions\RequestFailedException;
 use DateTime;
 use DateTimeZone;
 use Illuminate\Http\Client\HttpClientException;
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Http;
+use Jakuborava\WedosAPI\Exceptions\RequestFailedException;
 
 class WedosRequest
 {
     protected string $command;
+
     protected array $data;
+
     protected bool $handlesErrors;
 
     public function __construct(string $command, array $data = [])
@@ -25,12 +27,14 @@ class WedosRequest
     public function withoutErrorHandling(): WedosRequest
     {
         $this->handlesErrors = false;
+
         return $this;
     }
 
     public function withErrorHandling(): WedosRequest
     {
         $this->handlesErrors = true;
+
         return $this;
     }
 
@@ -44,7 +48,7 @@ class WedosRequest
 
         if ($this->handlesErrors && $wedosResponse->getCode() !== 1000) {
             throw new RequestFailedException(
-                $wedosResponse->getResult() . '. Response code: ' . $wedosResponse->getCode()
+                $wedosResponse->getResult().'. Response code: '.$wedosResponse->getCode()
             );
         }
 
@@ -57,19 +61,21 @@ class WedosRequest
             'request' => [
                 'user' => config('wapi.user'),
                 'auth' => $this->getAuthToken(),
-                'command' => $this->command
-            ]
+                'command' => $this->command,
+            ],
         ];
-        if (!empty($this->data)) {
+        if (! empty($this->data)) {
             $input['request']['data'] = $this->data;
         }
-        return 'request=' . json_encode($input);
+
+        return 'request='.json_encode($input);
     }
 
     private function getAuthToken(): string
     {
         $date = new DateTime('now', new DateTimeZone('Europe/Prague'));
-        return sha1(config('wapi.user') . sha1(config('wapi.password')) . $date->format('H'));
+
+        return sha1(config('wapi.user').sha1(config('wapi.password')).$date->format('H'));
     }
 
     /**
@@ -81,8 +87,8 @@ class WedosRequest
             ->withBody($this->getRequestBody(), 'application/x-www-form-urlencoded')
             ->post(config('wapi.url'));
 
-        if (!$response->ok()) {
-            throw new HttpClientException('Response was not successful. HTTP Response code: ' . $response->status());
+        if (! $response->ok()) {
+            throw new HttpClientException('Response was not successful. HTTP Response code: '.$response->status());
         }
 
         return $response;
