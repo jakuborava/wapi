@@ -152,7 +152,7 @@ class Domains
      * @throws HttpClientException
      * @throws RequestFailedException
      */
-    public function expiredDomains(): Collection
+    public function expired(): Collection
     {
         return collect($this->list())->filter(
             function (MinimalDomainInfo $domainInfo) {
@@ -165,7 +165,7 @@ class Domains
      * @throws HttpClientException
      * @throws RequestFailedException
      */
-    public function expiringDomains(int $days): Collection
+    public function expiringIn(int $days): Collection
     {
         return collect($this->list())->filter(
             function (MinimalDomainInfo $domainInfo) use ($days) {
