@@ -2,7 +2,9 @@
 
 namespace Jakuborava\WedosAPI\Endpoints;
 
+use Carbon\Carbon;
 use Illuminate\Http\Client\HttpClientException;
+use Illuminate\Support\Collection;
 use Jakuborava\WedosAPI\DataTransferObjects\DNS;
 use Jakuborava\WedosAPI\DataTransferObjects\FullDomainInfo;
 use Jakuborava\WedosAPI\DataTransferObjects\MinimalDomainInfo;
@@ -47,7 +49,7 @@ class Domains
     public function renew(string $name, int $period): DomainRenewResponse
     {
         $response = (new WedosRequest('domain-renew', ['name' => $name, 'period' => $period]))->send();
-        info('Renewed domain: '.json_encode($response->getData()));
+        info('Renewed domain: ' . json_encode($response->getData()));
 
         return DomainRenewResponse::fromWedosClientResponse($response);
     }
@@ -130,19 +132,55 @@ class Domains
             ],
         ];
 
-        if (! blank($nsset)) {
+        if (!blank($nsset)) {
             $body['nsset'] = $nsset;
         } else {
             $servers = [];
-            if (! is_null($dns)) {
+            if (!is_null($dns)) {
                 $counter = 1;
                 foreach ($dns->getServers() as $server) {
-                    $servers['server'.$counter++] = $server->getName();
+                    $servers['server' . $counter++] = $server->getName();
                 }
             }
             $body['dns'] = $servers;
         }
 
         return $body;
+    }
+
+    /**
+     * @throws HttpClientException
+     * @throws RequestFailedException
+     */
+    public function expiredDomains(): Collection
+    {
+        return collect($this->list())->filter(
+            function (MinimalDomainInfo $domainInfo) {
+                return $domainInfo->getStatus() === 'expired';
+            }
+        )->values();
+    }
+
+    /**
+     * @throws HttpClientException
+     * @throws RequestFailedException
+     */
+    public function expiringDomains(int $days): Collection
+    {
+        return collect($this->list())->filter(
+            function (MinimalDomainInfo $domainInfo) use ($days) {
+                return Carbon::parse($domainInfo->getExpiration())->diffInDays(now()) <= $days &&
+                    $domainInfo->getStatus() === 'active';
+            }
+        )->sort(function (MinimalDomainInfo $a, MinimalDomainInfo $b) {
+            $aExpiration = Carbon::parse($a->getExpiration());
+            $bExpiration = Carbon::parse($b->getExpiration());
+
+            if ($aExpiration->eq($bExpiration)) {
+                return 0;
+            }
+
+            return ($aExpiration->gt($bExpiration)) ? 1 : -1;
+        })->values();
     }
 }

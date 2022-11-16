@@ -17,13 +17,7 @@ class Row
     {
         (new WedosRequest(
             'dns-row-add',
-            [
-                'domain' => $domain,
-                'name' => $name,
-                'ttl' => $ttl,
-                'type' => $type,
-                'rdata' => $rdata,
-            ]
+            ['domain' => $domain, 'name' => $name, 'ttl' => $ttl, 'type' => $type, 'rdata' => $rdata]
         ))->send();
     }
 
