@@ -49,7 +49,7 @@ class Domains
     public function renew(string $name, int $period): DomainRenewResponse
     {
         $response = (new WedosRequest('domain-renew', ['name' => $name, 'period' => $period]))->send();
-        info('Renewed domain: ' . json_encode($response->getData()));
+        info('Renewed domain: '.json_encode($response->getData()));
 
         return DomainRenewResponse::fromWedosClientResponse($response);
     }
@@ -132,14 +132,14 @@ class Domains
             ],
         ];
 
-        if (!blank($nsset)) {
+        if (! blank($nsset)) {
             $body['nsset'] = $nsset;
         } else {
             $servers = [];
-            if (!is_null($dns)) {
+            if (! is_null($dns)) {
                 $counter = 1;
                 foreach ($dns->getServers() as $server) {
-                    $servers['server' . $counter++] = $server->getName();
+                    $servers['server'.$counter++] = $server->getName();
                 }
             }
             $body['dns'] = $servers;
