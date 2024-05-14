@@ -67,7 +67,7 @@ class Domains
             $data['dns'] = $this->getDNSBody($dns);
         }
 
-        if(!blank($nsset)) {
+        if (! blank($nsset)) {
             $data['nsset'] = $nsset;
         }
 
