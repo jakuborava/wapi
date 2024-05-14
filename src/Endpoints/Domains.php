@@ -49,7 +49,6 @@ class Domains
     public function renew(string $name, int $period): DomainRenewResponse
     {
         $response = (new WedosRequest('domain-renew', ['name' => $name, 'period' => $period]))->send();
-        info('Renewed domain: '.json_encode($response->getData()));
 
         return DomainRenewResponse::fromWedosClientResponse($response);
     }
@@ -59,9 +58,12 @@ class Domains
         //TODO: implement
     }
 
-    public function updateNS()
+    public function updateNS(string $domainName, DNS $dns): DomainRenewResponse
     {
-        //TODO: implement
+        $data = ['name' => $domainName, 'dns' => $this->getDNSBody($dns)];
+        $response = (new WedosRequest('domain-update-ns', $data))->send();
+
+        return DomainRenewResponse::fromWedosClientResponse($response);
     }
 
     public function sendAuthInfo()
@@ -135,14 +137,7 @@ class Domains
         if (! blank($nsset)) {
             $body['nsset'] = $nsset;
         } else {
-            $servers = [];
-            if (! is_null($dns)) {
-                $counter = 1;
-                foreach ($dns->getServers() as $server) {
-                    $servers['server'.$counter++] = $server->getName();
-                }
-            }
-            $body['dns'] = $servers;
+            $body['dns'] = $this->getDNSBody($dns);
         }
 
         return $body;
@@ -182,5 +177,17 @@ class Domains
 
             return ($aExpiration->gt($bExpiration)) ? 1 : -1;
         })->values();
+    }
+
+    private function getDNSBody(?DNS $dns): array
+    {
+        $servers = [];
+        if (!is_null($dns)) {
+            $counter = 1;
+            foreach ($dns->getServers() as $server) {
+                $servers['server' . $counter++] = ['name' => $server->getName()];
+            }
+        }
+        return $servers;
     }
 }
