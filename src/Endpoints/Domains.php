@@ -5,6 +5,7 @@ namespace Jakuborava\WedosAPI\Endpoints;
 use Carbon\Carbon;
 use Illuminate\Http\Client\HttpClientException;
 use Illuminate\Support\Collection;
+use Jakuborava\WedosAPI\BaseResponse;
 use Jakuborava\WedosAPI\DataTransferObjects\DNS;
 use Jakuborava\WedosAPI\DataTransferObjects\FullDomainInfo;
 use Jakuborava\WedosAPI\DataTransferObjects\MinimalDomainInfo;
@@ -58,7 +59,7 @@ class Domains
         //TODO: implement
     }
 
-    public function updateNS(string $domainName, ?DNS $dns = null, string $nsset = ''): DomainRenewResponse
+    public function updateNS(string $domainName, ?DNS $dns = null, string $nsset = ''): BaseResponse
     {
         $data = ['name' => $domainName];
 
@@ -70,9 +71,7 @@ class Domains
             $data['nsset'] = $nsset;
         }
 
-        $response = (new WedosRequest('domain-update-ns', $data))->send();
-
-        return DomainRenewResponse::fromWedosClientResponse($response);
+        return (new WedosRequest('domain-update-ns', $data))->send();
     }
 
     public function sendAuthInfo()
