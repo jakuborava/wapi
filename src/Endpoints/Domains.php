@@ -58,9 +58,18 @@ class Domains
         //TODO: implement
     }
 
-    public function updateNS(string $domainName, DNS $dns): DomainRenewResponse
+    public function updateNS(string $domainName, ?DNS $dns = null, string $nsset = ''): DomainRenewResponse
     {
-        $data = ['name' => $domainName, 'dns' => $this->getDNSBody($dns)];
+        $data = ['name' => $domainName];
+
+        if ($dns !== null) {
+            $data['dns'] = $this->getDNSBody($dns);
+        }
+
+        if(!blank($nsset)) {
+            $data['nsset'] = $nsset;
+        }
+
         $response = (new WedosRequest('domain-update-ns', $data))->send();
 
         return DomainRenewResponse::fromWedosClientResponse($response);
