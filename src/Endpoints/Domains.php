@@ -92,7 +92,7 @@ class Domains
         string $ownerContact,
         Rules $rules,
         string $nsset = '',
-        DNS $dns = null
+        ?DNS $dns = null
     ): DomainCreateResponse {
         $response = (new WedosRequest(
             'domain-create',
@@ -182,12 +182,13 @@ class Domains
     private function getDNSBody(?DNS $dns): array
     {
         $servers = [];
-        if (!is_null($dns)) {
+        if (! is_null($dns)) {
             $counter = 1;
             foreach ($dns->getServers() as $server) {
-                $servers['server' . $counter++] = ['name' => $server->getName()];
+                $servers['server'.$counter++] = ['name' => $server->getName()];
             }
         }
+
         return $servers;
     }
 }
