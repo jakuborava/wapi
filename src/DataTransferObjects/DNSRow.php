@@ -22,7 +22,7 @@ class DNSRow implements DTO
 
     public static function fromWedosResponseData(array $data): DNSRow
     {
-        $dnsRow = new self();
+        $dnsRow = new self;
         $dnsRow->id = $data['ID'];
         $dnsRow->name = $data['name'];
         $dnsRow->ttl = $data['ttl'];

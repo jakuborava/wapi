@@ -11,7 +11,7 @@ class DomainRenewResponse implements ResponseWithData
 
     public static function fromWedosClientResponse(BaseResponse $baseResponse): DomainRenewResponse
     {
-        $response = new self();
+        $response = new self;
         $response->expiration = $baseResponse->getData()['expiration'];
 
         return $response;

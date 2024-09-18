@@ -26,7 +26,7 @@ class AccountListItem implements DTO
 
     public static function fromWedosResponseData(array $data): AccountListItem
     {
-        $accountListItem = new self();
+        $accountListItem = new self;
         $accountListItem->fill($data);
 
         return $accountListItem;

@@ -16,7 +16,7 @@ class DomainCreateResponse implements ResponseWithData
 
     public static function fromWedosClientResponse(BaseResponse $baseResponse): DomainCreateResponse
     {
-        $response = new self();
+        $response = new self;
         $response->expiration = $baseResponse->getData()['expiration'];
         $response->num = $baseResponse->getData()['num'];
         $response->credit = CreditInfo::fromWedosResponseData($baseResponse->getData()['credit']);

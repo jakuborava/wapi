@@ -12,7 +12,7 @@ class CreditInfo implements DTO
 
     public static function fromWedosResponseData(array $data): CreditInfo
     {
-        $credit = new self();
+        $credit = new self;
         $credit->amount = $data['amount'];
         $credit->currency = $data['currency'];
 

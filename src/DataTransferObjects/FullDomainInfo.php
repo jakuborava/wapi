@@ -76,7 +76,7 @@ class FullDomainInfo extends MinimalDomainInfo
 
     public static function fromWedosResponseData(array $data): FullDomainInfo
     {
-        $domain = new self();
+        $domain = new self;
         $domain->name = $data['name'];
         $domain->status = $data['status'];
         $domain->expiration = $data['expiration'];
@@ -92,10 +92,10 @@ class FullDomainInfo extends MinimalDomainInfo
         $domain->regUpdate = $data['reg_update'];
         $domain->updatedDate = $data['updated_date'];
         $domain->transferDate = $data['transfer_date'];
-        $dns = new DNS();
+        $dns = new DNS;
         $servers = [];
         foreach ($data['dns']['server'] as $dnsServer) {
-            $server = new Server();
+            $server = new Server;
             $server->setName($dnsServer['name']);
             $server->setIpv4($dnsServer['addr_ipv4']);
             $server->setIpv6($dnsServer['addr_ipv6']);

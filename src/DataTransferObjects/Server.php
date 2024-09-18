@@ -44,7 +44,7 @@ class Server implements DTO
 
     public static function fromWedosResponseData(array $data): Server
     {
-        $server = new self();
+        $server = new self;
         $server->name = $data['name'];
         $server->ipv4 = $data['addr_ipv4'];
         $server->ipv6 = $data['addr_ipv6'];

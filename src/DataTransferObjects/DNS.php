@@ -20,7 +20,7 @@ class DNS implements DTO
 
     public static function fromWedosResponseData(array $data): DNS
     {
-        $dns = new self();
+        $dns = new self;
         foreach ($data['servers'] as $serverData) {
             $dns->servers[] = Server::fromWedosResponseData($serverData);
         }

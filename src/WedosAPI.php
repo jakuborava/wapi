@@ -15,41 +15,41 @@ class WedosAPI
 {
     public function dns(): DNS
     {
-        return new DNS();
+        return new DNS;
     }
 
     public function credit(): Credit
     {
-        return new Credit();
+        return new Credit;
     }
 
     public function ping(): Ping
     {
-        return new Ping();
+        return new Ping;
     }
 
     public function account(): Account
     {
-        return new Account();
+        return new Account;
     }
 
     public function nsSet(): NSSet
     {
-        return new NSSet();
+        return new NSSet;
     }
 
     public function contact(): Contacts
     {
-        return new Contacts();
+        return new Contacts;
     }
 
     public function domains(): Domains
     {
-        return new Domains();
+        return new Domains;
     }
 
     public function poll(): Poll
     {
-        return new Poll();
+        return new Poll;
     }
 }

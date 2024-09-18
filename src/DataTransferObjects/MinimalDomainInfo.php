@@ -15,7 +15,7 @@ class MinimalDomainInfo implements DTO, JsonSerializable
 
     public static function fromWedosResponseData(array $data): MinimalDomainInfo
     {
-        $domain = new self();
+        $domain = new self;
         $domain->name = $data['name'];
         $domain->status = $data['status'];
         $domain->expiration = $data['expiration'];

@@ -9,11 +9,11 @@ class DNS
 {
     public function domain(): Domain
     {
-        return new Domain();
+        return new Domain;
     }
 
     public function row(): Row
     {
-        return new Row();
+        return new Row;
     }
 }

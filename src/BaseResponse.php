@@ -20,7 +20,7 @@ class BaseResponse
 
     public static function fromLaravelResponse(Response $response): self
     {
-        $wedosResponse = new self();
+        $wedosResponse = new self;
         $wedosResponse->fill($response->json('response'));
 
         return $wedosResponse;
