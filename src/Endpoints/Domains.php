@@ -14,6 +14,7 @@ use Jakuborava\WedosAPI\DataTransferObjects\Rules;
 use Jakuborava\WedosAPI\Exceptions\RequestFailedException;
 use Jakuborava\WedosAPI\Responses\DomainCreateResponse;
 use Jakuborava\WedosAPI\Responses\DomainRenewResponse;
+use Jakuborava\WedosAPI\Utils\DnsUtils;
 use Jakuborava\WedosAPI\WedosRequest;
 
 class Domains
@@ -85,7 +86,7 @@ class Domains
 
     public function updateNSUsingDns(string $domainName, ?DNS $dns): BaseResponse
     {
-        $data = ['name' => $domainName, 'dns' => $this->getDNSBody($dns)];
+        $data = ['name' => $domainName, 'dns' => DnsUtils::getDNSBody($dns)];
 
         return (new WedosRequest('domain-update-ns', $data))->send();
     }
@@ -151,7 +152,7 @@ class Domains
         if (!blank($nsset)) {
             $body['nsset'] = $nsset;
         } else {
-            $body['dns'] = $this->getDNSBody($dns);
+            $body['dns'] = DnsUtils::getDNSBody($dns);
         }
 
         return $body;
@@ -191,18 +192,5 @@ class Domains
 
             return ($aExpiration->gt($bExpiration)) ? 1 : -1;
         })->values();
-    }
-
-    private function getDNSBody(?DNS $dns): array
-    {
-        $servers = [];
-        if (!is_null($dns)) {
-            $counter = 1;
-            foreach ($dns->getServers() as $server) {
-                $servers['server' . $counter++] = ['name' => $server->getName()];
-            }
-        }
-
-        return $servers;
     }
 }
