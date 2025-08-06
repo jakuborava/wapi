@@ -5,6 +5,7 @@ namespace Jakuborava\WedosAPI\Endpoints;
 use Carbon\Carbon;
 use Illuminate\Http\Client\HttpClientException;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
 use Jakuborava\WedosAPI\BaseResponse;
 use Jakuborava\WedosAPI\DataTransferObjects\DNS;
 use Jakuborava\WedosAPI\DataTransferObjects\FullDomainInfo;
@@ -21,17 +22,6 @@ class Domains
      * @throws RequestFailedException
      * @throws HttpClientException
      */
-    public function info(string $name): FullDomainInfo
-    {
-        $response = (new WedosRequest('domain-info', ['name' => $name]))->send();
-
-        return FullDomainInfo::fromWedosResponseData($response->getData()['domain']);
-    }
-
-    /**
-     * @throws RequestFailedException
-     * @throws HttpClientException
-     */
     public function list(): array
     {
         $response = (new WedosRequest('domains-list'))->send();
@@ -43,50 +33,11 @@ class Domains
         return $domains;
     }
 
-    /**
-     * @throws RequestFailedException
-     * @throws HttpClientException
-     */
-    public function renew(string $name, int $period): DomainRenewResponse
+    public function check(string $name): bool
     {
-        $response = (new WedosRequest('domain-renew', ['name' => $name, 'period' => $period]))->send();
+        (new WedosRequest('domain-check', ['name' => $name]))->send();
 
-        return DomainRenewResponse::fromWedosClientResponse($response);
-    }
-
-    public function transfer()
-    {
-        //TODO: implement
-    }
-
-    public function updateNS(string $domainName, ?DNS $dns = null, string $nsset = ''): BaseResponse
-    {
-        $data = ['name' => $domainName];
-
-        if ($dns !== null) {
-            $data['dns'] = $this->getDNSBody($dns);
-        }
-
-        if (! blank($nsset)) {
-            $data['nsset'] = $nsset;
-        }
-
-        return (new WedosRequest('domain-update-ns', $data))->send();
-    }
-
-    public function sendAuthInfo()
-    {
-        //TODO: implement
-    }
-
-    public function tldPeriodCheck()
-    {
-        //TODO: implement
-    }
-
-    public function transferCheck()
-    {
-        //TODO: implement
+        return true;
     }
 
     /**
@@ -110,9 +61,69 @@ class Domains
         return DomainCreateResponse::fromWedosClientResponse($response);
     }
 
-    public function check(string $name): bool
+    /**
+     * @throws RequestFailedException
+     * @throws HttpClientException
+     */
+    public function info(string $name): FullDomainInfo
     {
-        (new WedosRequest('domain-check', ['name' => $name]))->send();
+        $response = (new WedosRequest('domain-info', ['name' => $name]))->send();
+
+        return FullDomainInfo::fromWedosResponseData($response->getData()['domain']);
+    }
+
+    /**
+     * @throws RequestFailedException
+     * @throws HttpClientException
+     */
+    public function renew(string $name, int $period): DomainRenewResponse
+    {
+        $response = (new WedosRequest('domain-renew', ['name' => $name, 'period' => $period]))->send();
+
+        return DomainRenewResponse::fromWedosClientResponse($response);
+    }
+
+    public function updateNSUsingDns(string $domainName, ?DNS $dns): BaseResponse
+    {
+        $data = ['name' => $domainName, 'dns' => $this->getDNSBody($dns)];
+
+        return (new WedosRequest('domain-update-ns', $data))->send();
+    }
+
+    public function updateNSUsingNsset(string $domainName, string $nsset): BaseResponse
+    {
+        $data = ['name' => $domainName, 'nsset' => $nsset];
+
+        return (new WedosRequest('domain-update-ns', $data))->send();
+    }
+
+    public function transferCheck()
+    {
+        //TODO: implement
+    }
+
+    public function transfer()
+    {
+        //TODO: implement
+    }
+
+    public function sendAuthInfo()
+    {
+        //TODO: implement
+    }
+
+    public function tldPeriodCheck(string $tld, int $period): bool
+    {
+        $data = ['tld' => $tld, 'period' => $period];
+
+        try {
+            $response = (new WedosRequest('domain-tld-period-check', $data))->send();
+        } catch (RequestFailedException $exception) {
+            if (Str::contains($exception->getMessage(), 'Invalid period. Response code: 2203')) {
+                return false;
+            }
+            throw $exception;
+        }
 
         return true;
     }
@@ -142,7 +153,7 @@ class Domains
             ],
         ];
 
-        if (! blank($nsset)) {
+        if (!blank($nsset)) {
             $body['nsset'] = $nsset;
         } else {
             $body['dns'] = $this->getDNSBody($dns);
@@ -190,10 +201,10 @@ class Domains
     private function getDNSBody(?DNS $dns): array
     {
         $servers = [];
-        if (! is_null($dns)) {
+        if (!is_null($dns)) {
             $counter = 1;
             foreach ($dns->getServers() as $server) {
-                $servers['server'.$counter++] = ['name' => $server->getName()];
+                $servers['server' . $counter++] = ['name' => $server->getName()];
             }
         }
 
