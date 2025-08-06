@@ -99,17 +99,17 @@ class Domains
 
     public function transferCheck()
     {
-        //TODO: implement - https://kb.wedos.global/wapi-domains/#domain-transfer-check
+        // TODO: implement - https://kb.wedos.global/wapi-domains/#domain-transfer-check
     }
 
     public function transfer()
     {
-        //TODO: implement - https://kb.wedos.global/wapi-domains/#domain-transfer
+        // TODO: implement - https://kb.wedos.global/wapi-domains/#domain-transfer
     }
 
     public function sendAuthInfo()
     {
-        //TODO: implement - https://kb.wedos.global/wapi-domains/#domain-send-auth-info
+        // TODO: implement - https://kb.wedos.global/wapi-domains/#domain-send-auth-info
     }
 
     public function tldPeriodCheck(string $tld, int $period): bool
@@ -148,7 +148,7 @@ class Domains
             ],
         ];
 
-        if (!blank($nsset)) {
+        if (! blank($nsset)) {
             $body['nsset'] = $nsset;
         } else {
             $body['dns'] = $this->getDNSBody($dns);
@@ -196,10 +196,10 @@ class Domains
     private function getDNSBody(?DNS $dns): array
     {
         $servers = [];
-        if (!is_null($dns)) {
+        if (! is_null($dns)) {
             $counter = 1;
             foreach ($dns->getServers() as $server) {
-                $servers['server' . $counter++] = ['name' => $server->getName()];
+                $servers['server'.$counter++] = ['name' => $server->getName()];
             }
         }
 

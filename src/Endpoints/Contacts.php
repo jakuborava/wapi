@@ -6,31 +6,31 @@ class Contacts
 {
     public function check()
     {
-        //TODO: impement
+        // TODO: impement
     }
 
     public function info()
     {
-        //TODO: impement
+        // TODO: impement
     }
 
     public function create()
     {
-        //TODO: impement
+        // TODO: impement
     }
 
     public function update()
     {
-        //TODO: impement
+        // TODO: impement
     }
 
     public function transfer()
     {
-        //TODO: impement
+        // TODO: impement
     }
 
     public function sendAuthInfo()
     {
-        //TODO: impement
+        // TODO: impement
     }
 }
