@@ -4,6 +4,11 @@ namespace Jakuborava\WedosAPI\Endpoints;
 
 class Contacts
 {
+    public function check()
+    {
+        //TODO: impement
+    }
+
     public function info()
     {
         //TODO: impement
@@ -25,11 +30,6 @@ class Contacts
     }
 
     public function sendAuthInfo()
-    {
-        //TODO: impement
-    }
-
-    public function check()
     {
         //TODO: impement
     }

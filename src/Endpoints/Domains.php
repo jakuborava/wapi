@@ -99,17 +99,17 @@ class Domains
 
     public function transferCheck()
     {
-        //TODO: implement
+        //TODO: implement - https://kb.wedos.global/wapi-domains/#domain-transfer-check
     }
 
     public function transfer()
     {
-        //TODO: implement
+        //TODO: implement - https://kb.wedos.global/wapi-domains/#domain-transfer
     }
 
     public function sendAuthInfo()
     {
-        //TODO: implement
+        //TODO: implement - https://kb.wedos.global/wapi-domains/#domain-send-auth-info
     }
 
     public function tldPeriodCheck(string $tld, int $period): bool
@@ -126,11 +126,6 @@ class Domains
         }
 
         return true;
-    }
-
-    public function updateKeySet()
-    {
-        //TODO: implement
     }
 
     private function getDomainCreateRequestBody(
