@@ -100,17 +100,17 @@ class Domains
 
     public function transferCheck()
     {
-        //TODO: implement - https://kb.wedos.global/wapi-domains/#domain-transfer-check
+        // TODO: implement - https://kb.wedos.global/wapi-domains/#domain-transfer-check
     }
 
     public function transfer()
     {
-        //TODO: implement - https://kb.wedos.global/wapi-domains/#domain-transfer
+        // TODO: implement - https://kb.wedos.global/wapi-domains/#domain-transfer
     }
 
     public function sendAuthInfo()
     {
-        //TODO: implement - https://kb.wedos.global/wapi-domains/#domain-send-auth-info
+        // TODO: implement - https://kb.wedos.global/wapi-domains/#domain-send-auth-info
     }
 
     public function tldPeriodCheck(string $tld, int $period): bool
@@ -149,7 +149,7 @@ class Domains
             ],
         ];
 
-        if (!blank($nsset)) {
+        if (! blank($nsset)) {
             $body['nsset'] = $nsset;
         } else {
             $body['dns'] = DnsUtils::getDNSBody($dns);

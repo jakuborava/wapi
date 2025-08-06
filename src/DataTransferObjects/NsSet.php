@@ -18,8 +18,7 @@ readonly class NsSet
         public Carbon $transferDate,
         public string $techContact,
         public DNS $dns
-    ) {
-    }
+    ) {}
 
     public static function fromWedosResponseData(array $data): NsSet
     {
@@ -40,7 +39,7 @@ readonly class NsSet
     private static function collectDns(array $dnsServers): DNS
     {
         $dnsServers = (new Collection($dnsServers))->map(function (array $server) {
-            $dnsServer = new Server();
+            $dnsServer = new Server;
             $dnsServer->setName($server['name']);
 
             if (isset($server['addr_ipv4'][0])) {
@@ -54,7 +53,7 @@ readonly class NsSet
             return $dnsServer;
         })->toArray();
 
-        $dnsRecord = new DNS();
+        $dnsRecord = new DNS;
         $dnsRecord->setServers($dnsServers);
 
         return $dnsRecord;

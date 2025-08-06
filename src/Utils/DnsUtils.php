@@ -10,10 +10,10 @@ class DnsUtils
     {
         $servers = [];
 
-        if (!is_null($dns)) {
+        if (! is_null($dns)) {
             $counter = 1;
             foreach ($dns->getServers() as $server) {
-                $servers['server' . $counter++] = ['name' => $server->getName()];
+                $servers['server'.$counter++] = ['name' => $server->getName()];
             }
         }
 
