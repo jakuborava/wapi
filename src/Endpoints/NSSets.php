@@ -46,7 +46,7 @@ class NSSets
         $body['name'] = $name;
         $body['dns'] = DnsUtils::getDNSBody($dns);
 
-        if (!blank($technicalContact)) {
+        if (! blank($technicalContact)) {
             $body['tech_c'] = $technicalContact;
         }
 
@@ -55,16 +55,16 @@ class NSSets
 
     public function update()
     {
-        //TODO: implement
+        // TODO: implement
     }
 
     public function transfer()
     {
-        //TODO: implement
+        // TODO: implement
     }
 
     public function sendAuthInfo()
     {
-        //TODO: implement
+        // TODO: implement
     }
 }
