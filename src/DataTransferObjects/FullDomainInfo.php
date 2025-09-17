@@ -2,6 +2,8 @@
 
 namespace Jakuborava\WedosAPI\DataTransferObjects;
 
+use Illuminate\Support\Collection;
+
 readonly class FullDomainInfo extends MinimalDomainInfo
 {
     public function __construct(
@@ -21,7 +23,8 @@ readonly class FullDomainInfo extends MinimalDomainInfo
         public string $updatedDate,
         public string $transferDate,
         public DNS $dns,
-        public ?string $dnssecKeys,
+        /** @var Collection<int, DnssecKey> $dnssecKeys */
+        public ?Collection $dnssecKeys,
         public string $ownerCompany,
         public string $ownerName,
         public string $ownerLastName,
@@ -65,7 +68,7 @@ readonly class FullDomainInfo extends MinimalDomainInfo
             $data['updated_date'],
             $data['transfer_date'],
             DNS::fromWedosResponseData($data['dns']['server']),
-            $data['dnssec_keys'],
+            self::collectDnssecKeys($data['dnssec_keys']),
             $data['own_company'],
             $data['own_name'],
             $data['own_lname'],
@@ -88,5 +91,13 @@ readonly class FullDomainInfo extends MinimalDomainInfo
             $data['own_other']['ident'],
             $data['own_other']['del_addr'] ?? '',
         );
+    }
+
+    /** @return Collection<int, DnssecKey> */
+    private static function collectDnssecKeys(array $dnssecKeys): Collection
+    {
+        return (new Collection($dnssecKeys))->map(function (array $dnssecKey) {
+            return DnssecKey::fromWedosResponseData($dnssecKey);
+        });
     }
 }
