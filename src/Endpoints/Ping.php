@@ -15,6 +15,6 @@ class Ping
 
     public function pingAsync()
     {
-        //TODO: implement
+        // TODO: implement
     }
 }

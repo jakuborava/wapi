@@ -2,29 +2,23 @@
 
 namespace Jakuborava\WedosAPI\DataTransferObjects;
 
+use Illuminate\Support\Collection;
 use Jakuborava\WedosAPI\Contracts\DTO;
 
-class DNS implements DTO
+readonly class DNS implements DTO
 {
-    protected array $servers = [];
-
-    public function getServers(): array
+    public function __construct(public Collection $servers)
     {
-        return $this->servers;
-    }
-
-    public function setServers(array $servers): void
-    {
-        $this->servers = $servers;
     }
 
     public static function fromWedosResponseData(array $data): DNS
     {
-        $dns = new self;
-        foreach ($data['servers'] as $serverData) {
-            $dns->servers[] = Server::fromWedosResponseData($serverData);
+        $servers = new Collection();
+
+        foreach ($data as $serverData) {
+            $servers->add(Server::fromWedosResponseData($serverData));
         }
 
-        return $dns;
+        return new DNS($servers);
     }
 }

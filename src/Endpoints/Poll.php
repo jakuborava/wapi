@@ -6,11 +6,11 @@ class Poll
 {
     public function req()
     {
-        //TODO: implement
+        // TODO: implement
     }
 
     public function ack()
     {
-        //TODO: implement
+        // TODO: implement
     }
 }

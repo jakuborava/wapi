@@ -7,7 +7,7 @@ use Jakuborava\WedosAPI\Endpoints\Contacts;
 use Jakuborava\WedosAPI\Endpoints\Credit;
 use Jakuborava\WedosAPI\Endpoints\DNS;
 use Jakuborava\WedosAPI\Endpoints\Domains;
-use Jakuborava\WedosAPI\Endpoints\NSSet;
+use Jakuborava\WedosAPI\Endpoints\NSSets;
 use Jakuborava\WedosAPI\Endpoints\Ping;
 use Jakuborava\WedosAPI\Endpoints\Poll;
 
@@ -33,9 +33,9 @@ class WedosAPI
         return new Account;
     }
 
-    public function nsSet(): NSSet
+    public function nsSets(): NSSets
     {
-        return new NSSet;
+        return new NSSets;
     }
 
     public function contact(): Contacts

@@ -10,27 +10,18 @@ use Jakuborava\WedosAPI\WedosRequest;
 class Row
 {
     /**
-     * @throws HttpClientException
      * @throws RequestFailedException
+     * @throws HttpClientException
      */
-    public function add(string $domain, string $name, int $ttl, string $type, string $rdata): void
+    public function list(string $domainName): array
     {
-        (new WedosRequest(
-            'dns-row-add',
-            ['domain' => $domain, 'name' => $name, 'ttl' => $ttl, 'type' => $type, 'rdata' => $rdata]
-        ))->send();
-    }
+        $response = (new WedosRequest('dns-rows-list', ['domain' => $domainName]))->send();
+        $rows = [];
+        foreach ($response->getData()['row'] as $row) {
+            $rows[] = DNSRow::fromWedosResponseData($row);
+        }
 
-    /**
-     * @throws RequestFailedException
-     * @throws HttpClientException
-     */
-    public function delete(string $domain, int $rowID): void
-    {
-        (new WedosRequest(
-            'dns-row-delete',
-            ['domain' => $domain, 'row_id' => $rowID]
-        ))->send();
+        return $rows;
     }
 
     /**
@@ -48,18 +39,15 @@ class Row
     }
 
     /**
-     * @throws RequestFailedException
      * @throws HttpClientException
+     * @throws RequestFailedException
      */
-    public function list(string $domainName): array
+    public function add(string $domain, string $name, int $ttl, string $type, string $rdata): void
     {
-        $response = (new WedosRequest('dns-rows-list', ['domain' => $domainName]))->send();
-        $rows = [];
-        foreach ($response->getData()['row'] as $row) {
-            $rows[] = DNSRow::fromWedosResponseData($row);
-        }
-
-        return $rows;
+        (new WedosRequest(
+            'dns-row-add',
+            ['domain' => $domain, 'name' => $name, 'ttl' => $ttl, 'type' => $type, 'rdata' => $rdata]
+        ))->send();
     }
 
     /**
@@ -76,6 +64,18 @@ class Row
                 'ttl' => $ttl,
                 'rdata' => $rData,
             ]
+        ))->send();
+    }
+
+    /**
+     * @throws RequestFailedException
+     * @throws HttpClientException
+     */
+    public function delete(string $domain, int $rowID): void
+    {
+        (new WedosRequest(
+            'dns-row-delete',
+            ['domain' => $domain, 'row_id' => $rowID]
         ))->send();
     }
 }
