@@ -7,8 +7,11 @@ use Jakuborava\WedosAPI\Contracts\DTO;
 
 readonly class DNS implements DTO
 {
-    public function __construct(public Collection $servers)
-    {
+
+    public function __construct(
+        /** @var Collection<int, Server> $servers */
+        public Collection $servers
+    ) {
     }
 
     public static function fromWedosResponseData(array $data): DNS
