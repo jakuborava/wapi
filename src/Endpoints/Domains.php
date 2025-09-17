@@ -143,10 +143,7 @@ class Domains
             'period' => $period,
             'owner_c' => $ownerContact,
             'admin_c' => $adminContact,
-            'rules' => [
-                'fname' => $rules->getFName(),
-                'lname' => $rules->getLName(),
-            ],
+            'rules' => ['fname' => $rules->firstName, 'lname' => $rules->lastName],
         ];
 
         if (!blank($nsset)) {
@@ -166,7 +163,7 @@ class Domains
     {
         return collect($this->list())->filter(
             function (MinimalDomainInfo $domainInfo) {
-                return $domainInfo->getStatus() === 'expired';
+                return $domainInfo->status === 'expired';
             }
         )->values();
     }
@@ -179,12 +176,12 @@ class Domains
     {
         return collect($this->list())->filter(
             function (MinimalDomainInfo $domainInfo) use ($days) {
-                return Carbon::parse($domainInfo->getExpiration())->diffInDays(now()) <= $days &&
-                    $domainInfo->getStatus() === 'active';
+                return Carbon::parse($domainInfo->expiration)->diffInDays(now()) <= $days &&
+                    $domainInfo->status === 'active';
             }
         )->sort(function (MinimalDomainInfo $a, MinimalDomainInfo $b) {
-            $aExpiration = Carbon::parse($a->getExpiration());
-            $bExpiration = Carbon::parse($b->getExpiration());
+            $aExpiration = Carbon::parse($a->expiration);
+            $bExpiration = Carbon::parse($b->expiration);
 
             if ($aExpiration->eq($bExpiration)) {
                 return 0;

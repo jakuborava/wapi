@@ -3,7 +3,6 @@
 namespace Jakuborava\WedosAPI\DataTransferObjects;
 
 use Carbon\Carbon;
-use Illuminate\Support\Collection;
 
 readonly class NsSet
 {
@@ -33,30 +32,7 @@ readonly class NsSet
             Carbon::parse($data['updated_date']),
             Carbon::parse($data['transfer_date']),
             $data['tech_c'],
-            self::collectDns($data['dns']['server'])
+            DNS::fromWedosResponseData($data['dns']['server'])
         );
-    }
-
-    private static function collectDns(array $dnsServers): DNS
-    {
-        $dnsServers = (new Collection($dnsServers))->map(function (array $server) {
-            $dnsServer = new Server();
-            $dnsServer->setName($server['name']);
-
-            if (isset($server['addr_ipv4'][0])) {
-                $dnsServer->setIpv4($server['addr_ipv4'][0]);
-            }
-
-            if (isset($server['addr_ipv6'][0])) {
-                $dnsServer->setIpv4($server['addr_ipv6'][0]);
-            }
-
-            return $dnsServer;
-        })->toArray();
-
-        $dnsRecord = new DNS();
-        $dnsRecord->setServers($dnsServers);
-
-        return $dnsRecord;
     }
 }
