@@ -46,8 +46,7 @@ readonly class FullDomainInfo extends MinimalDomainInfo
         public string $ownerIdentType,
         public string $ownerIdent,
         public string $ownerDeliveryAddress,
-    ) {
-    }
+    ) {}
 
     public static function fromWedosResponseData(array $data): FullDomainInfo
     {
@@ -68,7 +67,7 @@ readonly class FullDomainInfo extends MinimalDomainInfo
             $data['updated_date'],
             $data['transfer_date'],
             DNS::fromWedosResponseData($data['dns']['server']),
-            isset($data['dnssec_keys']) ? self::collectDnssecKeys($data['dnssec_keys']) : new Collection(),
+            isset($data['dnssec_keys']) ? self::collectDnssecKeys($data['dnssec_keys']) : new Collection,
             $data['own_company'],
             $data['own_name'],
             $data['own_lname'],

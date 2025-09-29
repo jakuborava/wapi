@@ -17,8 +17,7 @@ readonly class NsSet
         public Carbon $transferDate,
         public string $techContact,
         public DNS $dns
-    ) {
-    }
+    ) {}
 
     public static function fromWedosResponseData(array $data): NsSet
     {

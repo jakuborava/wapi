@@ -16,9 +16,7 @@ readonly class AccountListItem implements DTO
         public ?string $billDate,
         public bool $blocked,
         public string $createdDate
-    ) {
-    }
-
+    ) {}
 
     public static function fromWedosResponseData(array $data): AccountListItem
     {

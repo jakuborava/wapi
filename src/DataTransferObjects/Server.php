@@ -6,9 +6,7 @@ use Jakuborava\WedosAPI\Contracts\DTO;
 
 readonly class Server implements DTO
 {
-    public function __construct(public string $name, public string $ipv4, public string $ipv6)
-    {
-    }
+    public function __construct(public string $name, public string $ipv4, public string $ipv6) {}
 
     public static function fromWedosResponseData(array $data): Server
     {
