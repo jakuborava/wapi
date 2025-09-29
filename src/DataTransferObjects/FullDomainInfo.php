@@ -68,7 +68,7 @@ readonly class FullDomainInfo extends MinimalDomainInfo
             $data['updated_date'],
             $data['transfer_date'],
             DNS::fromWedosResponseData($data['dns']['server']),
-            isset($data['dnssec_keys']) ? self::collectDnssecKeys($data['dnssec_keys']) : null,
+            isset($data['dnssec_keys']) ? self::collectDnssecKeys($data['dnssec_keys']) : new Collection(),
             $data['own_company'],
             $data['own_name'],
             $data['own_lname'],
@@ -87,14 +87,14 @@ readonly class FullDomainInfo extends MinimalDomainInfo
             $data['own_addr_state'],
             $data['rgp_status'],
             $data['own_other']['notify_email'] ?? '',
-            $data['own_other']['ident_type'],
-            $data['own_other']['ident'],
+            $data['own_other']['ident_type'] ?? '',
+            $data['own_other']['ident'] ?? '',
             $data['own_other']['del_addr'] ?? '',
         );
     }
 
     /** @return Collection<int, DnssecKey> */
-    private static function collectDnssecKeys(?array $dnssecKeys): Collection
+    private static function collectDnssecKeys(array $dnssecKeys): Collection
     {
         return (new Collection($dnssecKeys))->map(function (array $dnssecKey) {
             return DnssecKey::fromWedosResponseData($dnssecKey);
