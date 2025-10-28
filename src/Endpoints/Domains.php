@@ -176,7 +176,7 @@ class Domains
     {
         return collect($this->list())->filter(
             function (MinimalDomainInfo $domainInfo) use ($days) {
-                return Carbon::parse($domainInfo->expiration)->diffInDays(now()) <= $days &&
+                return Carbon::parse($domainInfo->expiration)->diffInDays(now(), true) <= $days &&
                     $domainInfo->status === 'active';
             }
         )->sort(function (MinimalDomainInfo $a, MinimalDomainInfo $b) {
