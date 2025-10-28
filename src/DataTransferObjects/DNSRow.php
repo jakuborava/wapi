@@ -14,8 +14,7 @@ readonly class DNSRow implements DTO
         public string $data = '',
         public string $changedDate = '',
         public string $authorComment = ''
-    ) {
-    }
+    ) {}
 
     public static function fromWedosResponseData(array $data): DNSRow
     {

@@ -16,8 +16,7 @@ readonly class DnssecKey implements DTO
         public ?string $digest,
         public ?string $digestAlg,
         public ?string $digestType
-    ) {
-    }
+    ) {}
 
     public static function fromWedosResponseData(array $data): DnssecKey
     {
